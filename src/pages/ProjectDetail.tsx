@@ -22,6 +22,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { getStatusBadgeClassName, formatDate } from '@/lib/utils';
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -83,20 +84,6 @@ const ProjectDetail = () => {
     }
   ];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'deployed':
-      case 'success':
-        return 'bg-success-bg text-success border-success/20';
-      case 'building':
-        return 'bg-warning-bg text-warning border-warning/20';
-      case 'failed':
-        return 'bg-error-bg text-error border-error/20';
-      default:
-        return 'bg-muted text-muted-foreground';
-    }
-  };
-
   const addEnvVar = () => {
     if (newEnvVar.key && newEnvVar.value) {
       setEnvVars(prev => [...prev, {
@@ -122,16 +109,6 @@ const ProjectDetail = () => {
     setEnvVars(prev => prev.filter(env => env.id !== id));
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString('es-ES', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
   return (
     <div className="p-6">
       {/* Header */}
@@ -154,7 +131,7 @@ const ProjectDetail = () => {
           </div>
         </div>
         <div className="flex items-center space-x-3">
-          <Badge className={getStatusColor(project.status)}>
+          <Badge className={getStatusBadgeClassName(project.status)}>
             <div className={`status-dot mr-1 status-${project.status === 'deployed' ? 'success' : project.status}`} />
             {project.status === 'deployed' ? 'Desplegado' : project.status}
           </Badge>
@@ -218,7 +195,7 @@ const ProjectDetail = () => {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Estado</span>
-                  <Badge className={getStatusColor(project.status)}>
+                  <Badge className={getStatusBadgeClassName(project.status)}>
                     Desplegado
                   </Badge>
                 </div>
@@ -258,7 +235,7 @@ const ProjectDetail = () => {
                 {deploymentHistory.map((deployment) => (
                   <div key={deployment.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
                     <div className="flex items-center space-x-4">
-                      <Badge className={getStatusColor(deployment.status)}>
+                      <Badge className={getStatusBadgeClassName(deployment.status as any)}>
                         <div className={`status-dot mr-1 status-${deployment.status === 'success' ? 'success' : deployment.status === 'building' ? 'warning' : 'error'}`} />
                         {deployment.status === 'success' ? 'Exitoso' : deployment.status === 'building' ? 'En progreso' : 'Falló'}
                       </Badge>

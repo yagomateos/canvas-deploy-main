@@ -5,16 +5,7 @@ import { Input } from '@/components/ui/input';
 import ProjectCard from '@/components/ProjectCard';
 import CreateProjectModal from '@/components/CreateProjectModal';
 import { useNavigate } from 'react-router-dom';
-
-interface Project {
-  id: string;
-  name: string;
-  repository: string;
-  framework: string;
-  status: 'deployed' | 'building' | 'failed';
-  lastDeploy: string;
-  url?: string;
-}
+import { Project } from '@/types';
 
 const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([
