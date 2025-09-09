@@ -13,6 +13,7 @@ import {
   Globe
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface SidebarProps {
@@ -89,28 +90,30 @@ const Sidebar = ({ user = { name: 'John Doe', email: 'john@example.com' } }: Sid
       </nav>
 
       {/* User Profile */}
-      <div className="p-3 border-t border-border">
-        <NavLink
-          to="/profile"
-          className={`
-            sidebar-item
-            ${isActive('/profile') ? 'sidebar-item-active' : 'sidebar-item-inactive'}
-            ${collapsed ? 'justify-center' : ''}
-          `}
-        >
-          <Avatar className="h-6 w-6">
-            <AvatarImage src={user.avatar} />
-            <AvatarFallback className="text-xs">
-              {user.name.split(' ').map(n => n[0]).join('')}
-            </AvatarFallback>
-          </Avatar>
-          {!collapsed && (
-            <div className="ml-3 flex-1">
-              <div className="text-sm font-medium truncate">{user.name}</div>
-              <div className="text-xs text-muted-foreground truncate">{user.email}</div>
-            </div>
-          )}
-        </NavLink>
+      <div className="p-3 border-t border-border mt-auto">
+        <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'}`}>
+          <NavLink
+            to="/profile"
+            className={`
+              sidebar-item flex-1
+              ${isActive('/profile') ? 'sidebar-item-active' : 'sidebar-item-inactive'}
+              ${collapsed ? 'justify-center' : ''}
+            `}
+          >
+            <Avatar className="h-6 w-6">
+              <AvatarImage src={user.avatar} />
+              <AvatarFallback className="text-xs">
+                {user.name.split(' ').map(n => n[0]).join('')}
+              </AvatarFallback>
+            </Avatar>
+            {!collapsed && (
+              <div className="ml-3 flex-1 min-w-0">
+                <div className="text-sm font-medium truncate">{user.name}</div>
+              </div>
+            )}
+          </NavLink>
+          {!collapsed && <ThemeToggle />}
+        </div>
         
         {!collapsed && (
           <Button
