@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Save, Mail, Bell, Shield, CreditCard, Key, Trash2, Globe } from 'lucide-react';
 
 const Settings = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: 'John Doe',
     email: 'john@example.com',
@@ -196,7 +198,7 @@ const Settings = () => {
                 <Globe className="h-5 w-5 mr-2" />
                 Dominios personalizados
               </div>
-              <Button size="sm" onClick={() => window.location.href = '/domains'}>
+              <Button size="sm" onClick={() => navigate('/dashboard/domains')}>
                 Ver todos
               </Button>
             </CardTitle>

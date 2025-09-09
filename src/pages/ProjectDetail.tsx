@@ -117,7 +117,7 @@ const ProjectDetail = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate('/projects')}
+            onClick={() => navigate('/dashboard/projects')}
             className="p-2"
           >
             <ArrowLeft className="h-4 w-4" />

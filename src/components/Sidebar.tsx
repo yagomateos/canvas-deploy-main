@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { 
   FolderOpen, 
   Rocket, 
@@ -26,22 +26,15 @@ interface SidebarProps {
 
 const Sidebar = ({ user = { name: 'John Doe', email: 'john@example.com' } }: SidebarProps) => {
   const [collapsed, setCollapsed] = useState(false);
-  const location = useLocation();
 
   const navigation = [
-    { name: 'Dashboard', href: '/', icon: BarChart3 },
-    { name: 'Proyectos', href: '/projects', icon: FolderOpen },
-    { name: 'Despliegues', href: '/deployments', icon: Rocket },
-    { name: 'Logs', href: '/logs', icon: FileText },
-    { name: 'Dominios', href: '/domains', icon: Globe },
-    { name: 'Configuración', href: '/settings', icon: Settings },
+    { name: 'Dashboard', href: '/dashboard', icon: BarChart3 },
+    { name: 'Proyectos', href: '/dashboard/projects', icon: FolderOpen },
+    { name: 'Despliegues', href: '/dashboard/deployments', icon: Rocket },
+    { name: 'Logs', href: '/dashboard/logs', icon: FileText },
+    { name: 'Dominios', href: '/dashboard/domains', icon: Globe },
+    { name: 'Configuración', href: '/dashboard/settings', icon: Settings },
   ];
-
-  const isActive = (path: string) => {
-    if (path === '/' && location.pathname === '/') return true;
-    if (path === '/projects' && location.pathname === '/') return false;
-    return location.pathname === path;
-  };
 
   return (
     <div className={`
@@ -51,12 +44,12 @@ const Sidebar = ({ user = { name: 'John Doe', email: 'john@example.com' } }: Sid
       {/* Header with Logo */}
       <div className="flex items-center justify-between p-4 border-b border-border">
         {!collapsed && (
-          <div className="flex items-center space-x-2">
+          <NavLink to="/dashboard" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">D</span>
+              <span className="text-primary-foreground font-bold text-sm">X</span>
             </div>
-            <span className="font-semibold text-foreground">DeployDash</span>
-          </div>
+            <span className="font-semibold text-foreground">XistraCloud</span>
+          </NavLink>
         )}
         <Button
           variant="ghost"
@@ -76,11 +69,12 @@ const Sidebar = ({ user = { name: 'John Doe', email: 'john@example.com' } }: Sid
             <NavLink
               key={item.name}
               to={item.href}
-              className={`
-                sidebar-item
-                ${isActive(item.href) ? 'sidebar-item-active' : 'sidebar-item-inactive'}
-                ${collapsed ? 'justify-center' : ''}
-              `}
+              end={item.href === '/dashboard'}
+              className={({ isActive }) => `
+                  sidebar-item
+                  ${isActive ? 'sidebar-item-active' : 'sidebar-item-inactive'}
+                  ${collapsed ? 'justify-center' : ''}
+                `}
             >
               <Icon className="h-4 w-4" />
               {!collapsed && <span className="ml-3">{item.name}</span>}
@@ -93,12 +87,12 @@ const Sidebar = ({ user = { name: 'John Doe', email: 'john@example.com' } }: Sid
       <div className="p-3 border-t border-border mt-auto">
         <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'}`}>
           <NavLink
-            to="/profile"
-            className={`
-              sidebar-item flex-1
-              ${isActive('/profile') ? 'sidebar-item-active' : 'sidebar-item-inactive'}
-              ${collapsed ? 'justify-center' : ''}
-            `}
+            to="/dashboard/profile"
+            className={({ isActive }) => `
+                sidebar-item flex-1
+                ${isActive ? 'sidebar-item-active' : 'sidebar-item-inactive'}
+                ${collapsed ? 'justify-center' : ''}
+              `}
           >
             <Avatar className="h-6 w-6">
               <AvatarImage src={user.avatar} />

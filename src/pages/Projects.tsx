@@ -66,7 +66,7 @@ const Projects = () => {
   };
 
   const handleViewDetails = (projectId: string) => {
-    navigate(`/project/${projectId}`);
+    navigate(`/dashboard/project/${projectId}`);
   };
 
   const handleDeploy = (projectId: string) => {
